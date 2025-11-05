@@ -1,0 +1,30 @@
+name: Testes
+
+on:
+  push:
+    branches:
+      - "**"
+      - "!main"
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Testes unitários e integração
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js (v22)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Instalar Dependências
+        run: npm ci
+
+      - name: Executar testes unitários e integração
+        run: npm run test
