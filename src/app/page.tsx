@@ -1,18 +1,11 @@
 "use client";
 
-import ButtonTemp from "@/components/ButtonTemp";
+import LoginForm from "@/components/LoginForm";
 
 export default function Home() {
   return (
     <div className="flex h-screen justify-center items-center">
-      <ButtonTemp
-        onClick={() => {
-          console.log("asd");
-        }}
-        variant="primary"
-      >
-        click
-      </ButtonTemp>
+      <LoginForm />
     </div>
   );
 }
