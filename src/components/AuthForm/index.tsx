@@ -1,7 +1,4 @@
-// import Link from "next/link";
-// import InputText from "../ImputText";
 import Image from "next/image";
-// import { Children } from "react";
 
 type RegisterFormProps = {
   title: string;
@@ -20,20 +17,6 @@ export default function AuthForm({
         <form action="" className="flex flex-col w-xl p-6">
           <h1 className="text-3xl text-center font-bold">{title}</h1>
           <p className="text-center text-zinc-500 mb-4">{description}</p>
-
-          {/* <InputText type="text" labelText="Nome" />
-          <InputText type="email" labelText="Email" />
-          <InputText type="password" labelText="Senha" />
-
-          <button className="cursor-pointer bg-blue-500 hover:bg-blue-800 text-white rounded-sm mt-4 p-1 font-semibold">
-            Entrar
-          </button>
-
-          <Link href="#" className="self-center text-zinc-500 mt-5">
-            Ainda não tem uma conta?{" "}
-            <span className="font-semibold text-black">Criar</span>
-          </Link> */}
-
           {children}
         </form>
       </div>

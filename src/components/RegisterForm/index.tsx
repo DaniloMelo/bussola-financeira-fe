@@ -8,6 +8,7 @@ export default function RegisterForm() {
       <InputText type="text" labelText="Nome" />
       <InputText type="email" labelText="Email" />
       <InputText type="password" labelText="Senha" />
+      <InputText type="password" labelText="Confirme a senha" />
 
       <button className="cursor-pointer bg-blue-500 hover:bg-blue-800 text-white rounded-sm mt-4 p-1 font-semibold">
         Entrar
@@ -15,7 +16,7 @@ export default function RegisterForm() {
 
       <Link href="/" className="self-center text-zinc-500 mt-5">
         já tem uma conta?{" "}
-        <span className="font-semibold text-black">Entrar</span>
+        <span className="font-semibold text-foreground">Entrar</span>
       </Link>
     </AuthForm>
   );

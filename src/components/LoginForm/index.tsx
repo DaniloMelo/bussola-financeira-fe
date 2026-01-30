@@ -21,7 +21,7 @@ export default function LoginForm() {
 
       <Link href="/register" className="self-center text-zinc-500 mt-5">
         Ainda não tem uma conta?{" "}
-        <span className="font-semibold text-black">Criar</span>
+        <span className="font-semibold text-foreground">Criar</span>
       </Link>
     </AuthForm>
   );
