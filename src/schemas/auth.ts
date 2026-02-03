@@ -13,7 +13,7 @@ export const registerSchema = z
     password: z
       .string()
       .nonempty("Senha não pode estar vazia.")
-      .min(3, "Senha precisa ter o mínimo de 6 caracteres."),
+      .min(6, "Senha precisa ter o mínimo de 6 caracteres."),
 
     confirmPassword: z.string().min(1, "Confirmação de senha é obrigatória"),
   })
