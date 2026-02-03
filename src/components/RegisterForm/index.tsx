@@ -1,23 +1,51 @@
 import Link from "next/link";
-import AuthForm from "../AuthForm";
 import InputText from "../ImputText";
+import AuthLayout from "../AuthLayout";
 
 export default function RegisterForm() {
   return (
-    <AuthForm title="Bem vindo!" description="Crie uma conta para começar">
-      <InputText type="text" labelText="Nome" />
-      <InputText type="email" labelText="Email" />
-      <InputText type="password" labelText="Senha" />
-      <InputText type="password" labelText="Confirme a senha" />
+    <AuthLayout
+      title="Bem-vindo!"
+      description="Comece a controlar suas finanças hoje"
+    >
+      <form className="flex flex-col">
+        <InputText
+          labelText="Nome"
+          type="text"
+          placeholder="Seu Nome"
+          autoComplete="name"
+        />
 
-      <button className="cursor-pointer bg-blue-500 hover:bg-blue-800 text-white rounded-sm mt-4 p-1 font-semibold">
-        Entrar
-      </button>
+        <InputText
+          labelText="Email"
+          type="email"
+          placeholder="seu@email.com"
+          autoComplete="email"
+        />
 
-      <Link href="/" className="self-center text-zinc-500 mt-5">
-        já tem uma conta?{" "}
-        <span className="font-semibold text-foreground">Entrar</span>
-      </Link>
-    </AuthForm>
+        <InputText
+          labelText="Senha"
+          type="password"
+          placeholder="••••••••"
+          autoComplete="new-password"
+        />
+
+        <InputText
+          labelText="Confirmar senha"
+          type="password"
+          placeholder="••••••••"
+          autoComplete="new-password"
+        />
+
+        <button className="cursor-pointer bg-blue-500 hover:bg-blue-800 text-white rounded-sm mt-4 p-1 font-semibold">
+          Entrar
+        </button>
+
+        <Link href="/" className="self-center text-zinc-500 mt-5">
+          já tem uma conta?{" "}
+          <span className="font-semibold text-foreground">Entrar</span>
+        </Link>
+      </form>
+    </AuthLayout>
   );
 }
