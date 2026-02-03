@@ -1,5 +1,5 @@
 import Link from "next/link";
-import InputText from "../ImputText";
+import Input from "../Input";
 import AuthLayout from "../AuthLayout";
 
 export default function RegisterForm() {
@@ -9,28 +9,28 @@ export default function RegisterForm() {
       description="Comece a controlar suas finanças hoje"
     >
       <form className="flex flex-col">
-        <InputText
+        <Input
           labelText="Nome"
           type="text"
           placeholder="Seu Nome"
           autoComplete="name"
         />
 
-        <InputText
+        <Input
           labelText="Email"
           type="email"
           placeholder="seu@email.com"
           autoComplete="email"
         />
 
-        <InputText
+        <Input
           labelText="Senha"
           type="password"
           placeholder="••••••••"
           autoComplete="new-password"
         />
 
-        <InputText
+        <Input
           labelText="Confirmar senha"
           type="password"
           placeholder="••••••••"
@@ -38,7 +38,7 @@ export default function RegisterForm() {
         />
 
         <button className="cursor-pointer bg-blue-500 hover:bg-blue-800 text-white rounded-sm mt-4 p-1 font-semibold">
-          Entrar
+          Criar
         </button>
 
         <Link href="/" className="self-center text-zinc-500 mt-5">

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import InputText from "../ImputText";
+import Input from "../Input";
 import AuthLayout from "../AuthLayout";
 
 export default function LoginForm() {
@@ -9,14 +9,14 @@ export default function LoginForm() {
       description="Faça login para acessar sua conta"
     >
       <form className="flex flex-col">
-        <InputText
+        <Input
           labelText="Email"
           type="email"
           placeholder="seu@email.com"
           autoComplete="email"
         />
 
-        <InputText
+        <Input
           labelText="Senha"
           type="password"
           placeholder="••••••••"
