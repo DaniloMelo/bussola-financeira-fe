@@ -1,16 +1,18 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
-
 import Link from "next/link";
 import Input from "../Input";
 import AuthLayout from "../AuthLayout";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import { registerFormData, registerSchema } from "@/schemas/auth";
+import { registerSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { extractFormErrors } from "@/lib/extract-form-errors";
 import { toast } from "react-toastify";
+import { useAuth } from "@/hooks/use-auth";
+import AuthButton from "../AuthButton";
 
 export default function RegisterForm() {
+  const { registerUser, isLoading } = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -29,16 +31,15 @@ export default function RegisterForm() {
     });
   }, [errors]);
 
-  function registerUser(data: registerFormData) {
-    console.log(data);
-  }
-
   return (
     <AuthLayout
       title="Bem-vindo!"
       description="Comece a controlar suas finanças hoje"
     >
-      <form onSubmit={handleSubmit(registerUser)} className="flex flex-col">
+      <form
+        onSubmit={(e) => void handleSubmit(registerUser)(e)}
+        className="flex flex-col"
+      >
         <Input
           labelText="Nome"
           type="text"
@@ -74,9 +75,7 @@ export default function RegisterForm() {
           {...register("confirmPassword")}
         />
 
-        <button className="cursor-pointer bg-blue-500 hover:bg-blue-800 text-white rounded-sm mt-4 p-1 font-semibold">
-          Criar
-        </button>
+        <AuthButton text="Criar" disabled={isLoading} />
 
         <Link href="/" className="self-center text-zinc-500 mt-5">
           já tem uma conta?{" "}

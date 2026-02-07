@@ -1,0 +1,48 @@
+import { ApiErrors } from "@/lib/api-client";
+import { AuthTokens, LoginUserInput } from "@/types/auth";
+import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
+
+const API_URL = process.env.API_URL;
+
+export async function POST(request: NextRequest) {
+  // await simulateWait(5);
+  const body = (await request.json()) as LoginUserInput;
+
+  const backendResponse = await fetch(`${API_URL}/v1/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  if (!backendResponse.ok) {
+    const backendResponseBody = (await backendResponse.json()) as ApiErrors;
+
+    return NextResponse.json(
+      { message: backendResponseBody.message },
+      { status: backendResponse.status },
+    );
+  }
+
+  const backendResponseBody = (await backendResponse.json()) as AuthTokens;
+
+  const cookieStore = await cookies();
+
+  cookieStore.set("access_token", backendResponseBody.access_token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 15,
+  });
+
+  cookieStore.set("refresh_token", backendResponseBody.refresh_token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 15,
+  });
+
+  return NextResponse.json({ message: "Login realizado com sucesso." });
+}
