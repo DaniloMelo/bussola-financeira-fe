@@ -24,7 +24,6 @@ export async function POST(request: NextRequest) {
   }
 
   const backendResponseBody = (await backendResponse.json()) as User;
-  console.log(backendResponseBody);
 
   return NextResponse.json(backendResponseBody, { status: 201 });
 }

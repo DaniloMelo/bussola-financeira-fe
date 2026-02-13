@@ -20,8 +20,6 @@ export function useAuth() {
         body: JSON.stringify({ name, email, password }),
       });
 
-      console.log(response);
-
       if (response.error) {
         toast.dismiss();
         response.error.forEach((err: string) => {

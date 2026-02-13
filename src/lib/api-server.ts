@@ -1,72 +1,53 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { getAccessToken } from "./cookies";
+import { User } from "@/types/user";
 
 const API_URL = process.env.API_URL;
 
-export async function fetchWithAuth(endpoint: string, options?: RequestInit) {
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("access_token")?.value;
+/**
+ * Faz requisições autenticadas para o backend
+ * O middleware já garantiu que temos tokens válidos/renovados
+ *
+ * @param endpoint Rota do endpoint
+ * @param options (Opcional) Opções como 'method', 'headers' e etc para o fetch
+ */
+export async function fetchProtected(endpoint: string, options?: RequestInit) {
+  const accessToken = await getAccessToken();
 
-  let response = await fetch(`${API_URL}${endpoint}`, {
+  if (!accessToken) {
+    redirect("/");
+  }
+
+  const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
     headers: {
       "Content-Type": "application/json",
       ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
       ...options?.headers,
     },
+    cache: "no-store",
   });
 
-  if (response.status !== 401) {
-    return response;
+  if (response.status === 401) {
+    redirect("/");
   }
 
-  const refreshToken = cookieStore.get("refresh_token")?.value;
+  return response;
+}
 
-  if (!refreshToken) {
-    return response;
+/**
+ * Retorna o usuário autenticado ou redireciona para o login.
+ * Útil para proteger páginas/rotas.
+ *
+ * @returns Dados do usuário autenticado
+ */
+export async function requireAuthenticatedUser(): Promise<User> {
+  const response = await fetchProtected(`/v1/user/me`);
+
+  if (!response.ok) {
+    redirect("/");
   }
 
-  const refreshResponse = await fetch(`${API_URL}/v1/auth/refresh`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(refreshToken && { Authorization: `Bearer ${refreshToken}` }),
-      ...options?.headers,
-    },
-  });
-
-  if (!refreshResponse.ok) {
-    cookieStore.delete("access_token");
-    cookieStore.delete("refresh_token");
-    return response;
-  }
-
-  const newTokens = await response.json();
-
-  cookieStore.set("access_token", newTokens.access_token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 15,
-  });
-
-  cookieStore.set("refresh_token", newTokens.refresh_token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 24 * 7,
-  });
-
-  response = await fetch(`${API_URL}${endpoint}`, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${newTokens.access_token}`,
-      ...options?.headers,
-    },
-  });
+  const user = (await response.json()) as User;
+  return user;
 }

@@ -45,6 +45,12 @@ export async function clearAuthTokens(): Promise<void> {
   cookieStore.delete(REFRESH_TOKEN_NAME);
 }
 
+export async function clearAccessToken(): Promise<void> {
+  const cookieStore = await cookies();
+
+  cookieStore.delete(ACCESS_TOKEN_NAME);
+}
+
 export async function getAccessToken(): Promise<string | undefined> {
   const cookeStore = await cookies();
   return cookeStore.get(ACCESS_TOKEN_NAME)?.value;

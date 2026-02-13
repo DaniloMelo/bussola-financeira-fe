@@ -14,8 +14,6 @@ import AuthButton from "../AuthButton";
 export default function LoginForm() {
   const { loginUser, isLoading } = useAuth();
 
-  console.log(isLoading);
-
   const router = useRouter();
   const searchParams = useSearchParams();
   const createdUserQueryString = searchParams.get("created");

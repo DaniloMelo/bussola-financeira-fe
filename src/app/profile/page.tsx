@@ -1,0 +1,15 @@
+// import ThemeSelector from "@/components/ThemeSelector";
+import { requireAuthenticatedUser } from "@/lib/api-server";
+
+export default async function Profile() {
+  const user = await requireAuthenticatedUser();
+  return (
+    <div>
+      <h1>Página de perfil</h1>
+      {/* <ThemeSelector /> */}
+
+      <p>Nome: {user.name}</p>
+      <p>Email: {user.email}</p>
+    </div>
+  );
+}

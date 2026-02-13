@@ -1,6 +1,6 @@
 import { ApiErrors } from "@/lib/api-client";
+import { setAuthCookies } from "@/lib/cookies";
 import { AuthTokens, LoginUserInput } from "@/types/auth";
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 const API_URL = process.env.API_URL;
@@ -26,23 +26,10 @@ export async function POST(request: NextRequest) {
 
   const backendResponseBody = (await backendResponse.json()) as AuthTokens;
 
-  const cookieStore = await cookies();
-
-  cookieStore.set("access_token", backendResponseBody.access_token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 15,
-  });
-
-  cookieStore.set("refresh_token", backendResponseBody.refresh_token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 15,
-  });
+  await setAuthCookies(
+    backendResponseBody.access_token,
+    backendResponseBody.refresh_token,
+  );
 
   return NextResponse.json({ message: "Login realizado com sucesso." });
 }
