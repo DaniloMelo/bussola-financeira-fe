@@ -10,8 +10,4 @@ export type User = {
       name: string;
     },
   ];
-  userCredentials: {
-    id: string;
-    lastLoginAt: string | null;
-  };
 };
