@@ -4,6 +4,11 @@
 import ThemeSelector from "@/components/ThemeSelector";
 
 export default function Teste() {
-  return <ThemeSelector />;
+  return (
+    <>
+      <p>This is a test</p>
+      <ThemeSelector />
+    </>
+  );
   // return <LoginFormSkeleton />;
 }
