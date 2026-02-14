@@ -1,18 +1,13 @@
-"use client";
-
-import ButtonTemp from "@/components/ButtonTemp";
+import LoginForm from "@/components/LoginForm";
+import LoginFormSkeleton from "@/components/LoginForm/login-form-skeleton";
+import { Suspense } from "react";
 
 export default function Home() {
   return (
     <div className="flex h-screen justify-center items-center">
-      <ButtonTemp
-        onClick={() => {
-          console.log("asd");
-        }}
-        variant="primary"
-      >
-        click
-      </ButtonTemp>
+      <Suspense fallback={<LoginFormSkeleton />}>
+        <LoginForm />
+      </Suspense>
     </div>
   );
 }
