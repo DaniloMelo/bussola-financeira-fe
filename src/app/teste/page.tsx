@@ -6,7 +6,6 @@ import ThemeSelector from "@/components/ThemeSelector";
 export default function Teste() {
   return (
     <>
-      <p>This is a test</p>
       <ThemeSelector />
     </>
   );
