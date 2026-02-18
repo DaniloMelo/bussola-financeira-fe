@@ -62,7 +62,7 @@ export function useAuth() {
         return;
       }
 
-      router.push("/teste");
+      router.push("/dashboard");
     } catch (error: unknown) {
       if (process.env.NODE_ENV != "production") {
         console.error("useAuth.loginUser hook failed:", error);
