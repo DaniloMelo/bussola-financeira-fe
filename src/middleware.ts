@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 import { jwtDecode } from "jwt-decode";
 import { AuthTokens, JwtPayload } from "./types/auth";
 
-const protectedRoutes = ["/dashboard", "/profile"];
+const protectedRoutes = ["/dashboard", "/profile", "/admin"];
 const authRoutes = ["/", "/register"];
 
 const API_URL = process.env.API_URL!;
