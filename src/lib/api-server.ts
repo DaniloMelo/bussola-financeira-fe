@@ -51,3 +51,15 @@ export async function requireAuthenticatedUser(): Promise<User> {
   const user = (await response.json()) as User;
   return user;
 }
+
+export async function requireAdminRole() {
+  const user = await requireAuthenticatedUser();
+
+  const roles = user.roles.map((role) => role.name);
+
+  if (!roles.includes("ADMIN")) {
+    redirect("/");
+  }
+
+  return user;
+}
