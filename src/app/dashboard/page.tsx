@@ -1,7 +1,7 @@
-// import { requireAuthenticatedUser } from "@/lib/api-server";
+import { requireAuthenticatedUser } from "@/lib/api-server";
 
-export default function DashBoard() {
-  // await requireAuthenticatedUser();
+export default async function DashBoard() {
+  await requireAuthenticatedUser();
 
   return <h1>Página principal</h1>;
 }
