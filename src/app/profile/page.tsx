@@ -1,3 +1,4 @@
+import LogoutButton from "@/components/LogoutButton";
 import { Role } from "@/enums/role";
 import { requireAuthenticatedUser } from "@/lib/api-server";
 import Link from "next/link";
@@ -12,6 +13,8 @@ export default async function Profile() {
 
       <p>Nome: {user.name}</p>
       <p>Email: {user.email}</p>
+
+      <LogoutButton />
 
       {isAdmin && <Link href="/admin">Painel Administrativo</Link>}
     </div>
