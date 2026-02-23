@@ -2,13 +2,13 @@ export type ApiErrors = {
   message: string[];
 };
 
-type ErrorResponse = {
+export type ErrorResponse = {
   data?: never;
   error: string[];
   status: number;
 };
 
-type SuccessResponse<T> = {
+export type SuccessResponse<T> = {
   data: T;
   error?: never;
   status: number;

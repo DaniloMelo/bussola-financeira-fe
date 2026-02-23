@@ -76,5 +76,35 @@ export function useAuth() {
     }
   }
 
-  return { registerUser, loginUser, isLoading };
+  async function logoutUser() {
+    setIsLoading(true);
+
+    try {
+      const response = await apiClient("/api/auth/logout", {
+        method: "POST",
+      });
+
+      if (response.error) {
+        toast.dismiss();
+        response.error.forEach((err: string) => {
+          toast.error(err);
+        });
+        return;
+      }
+
+      router.push("/");
+    } catch (error: unknown) {
+      if (process.env.NODE_ENV !== "production") {
+        console.error("useAuth.logoutUser hook failed:", error);
+      }
+
+      toast.error(
+        "Um erro inesperado ocorreu ao tentar deslogar o usuário. Tente mais tarde.",
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  return { isLoading, registerUser, loginUser, logoutUser };
 }
