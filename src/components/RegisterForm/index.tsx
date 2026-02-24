@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Input from "../Input";
 import AuthLayout from "../AuthLayout";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useEffect } from "react";
 import { registerSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,6 +11,7 @@ import { extractFormErrors } from "@/lib/extract-form-errors";
 import { toast } from "react-toastify";
 import { useAuth } from "@/hooks/use-auth";
 import AuthButton from "../AuthButton";
+import PasswordStrength from "../PasswordStrength";
 
 export default function RegisterForm() {
   const { registerUser, isLoading } = useAuth();
@@ -18,6 +19,7 @@ export default function RegisterForm() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(registerSchema),
@@ -32,6 +34,12 @@ export default function RegisterForm() {
       toast.error(message);
     });
   }, [errors]);
+
+  const passwordValue = useWatch({
+    control,
+    name: "password",
+    defaultValue: "",
+  });
 
   return (
     <AuthLayout
@@ -76,6 +84,8 @@ export default function RegisterForm() {
           autoComplete="new-password"
           {...register("confirmPassword")}
         />
+
+        {passwordValue && <PasswordStrength password={passwordValue} />}
 
         <AuthButton text="Criar" disabled={isLoading} />
 
