@@ -31,7 +31,7 @@ export default function AuthLayout({
       <div className="relative hidden lg:block">
         <Image
           src="/images/jouwen-wang-qJ9FwIQgLHI-unsplash.jpg"
-          alt="Imagem decorativa"
+          alt="Imagem decorativa" // TODO: Trocar ao adicionar imagem real (alterar no teste também)
           fill
           className="object-cover object-center"
           priority
