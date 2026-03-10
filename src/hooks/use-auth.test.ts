@@ -36,7 +36,7 @@ describe("useAuth", () => {
       confirmPassword: "Password@123",
     };
 
-    it("Should redirect to '/?created=1' after successfull registration", async () => {
+    it("Should redirect to '/?created=1' after registration", async () => {
       jest.mocked(apiClient).mockResolvedValue({
         data: {
           id: "1",
@@ -53,7 +53,7 @@ describe("useAuth", () => {
       expect(mockPush).toHaveBeenCalledWith("/?created=1");
     });
 
-    it("Should show error toast message when user already exists", async () => {
+    it("Should show a toast with generic API error message when user already exists", async () => {
       jest.mocked(apiClient).mockResolvedValue({
         error: ["Falha ao criar o usuário. Verifique os dados fornecidos."],
         status: 400,
@@ -64,13 +64,32 @@ describe("useAuth", () => {
         await result.current.registerUser(validUserInput);
       });
 
+      expect(toast.dismiss).toHaveBeenCalledTimes(1);
       expect(toast.error).toHaveBeenCalledWith(
         "Falha ao criar o usuário. Verifique os dados fornecidos.",
       );
       expect(mockPush).not.toHaveBeenCalled();
     });
 
-    it("Should show generic toast message for unexpected exceptions", async () => {
+    it("Should show one toast per error when API returns multiple errors", async () => {
+      jest.mocked(apiClient).mockResolvedValue({
+        error: ["Usuário inválido", "Email inválido", "Senha inválida"],
+        status: 400,
+      });
+
+      const { result } = renderHook(() => useAuth());
+      await act(async () => {
+        await result.current.registerUser(validUserInput);
+      });
+
+      expect(toast.dismiss).toHaveBeenCalledTimes(1);
+      expect(toast.error).toHaveBeenNthCalledWith(1, "Usuário inválido");
+      expect(toast.error).toHaveBeenNthCalledWith(2, "Email inválido");
+      expect(toast.error).toHaveBeenNthCalledWith(3, "Senha inválida");
+      expect(mockPush).not.toHaveBeenCalled();
+    });
+
+    it("Should show a generic error toast when an unexpected exception occurs", async () => {
       jest.mocked(apiClient).mockResolvedValue({
         error: [
           "Um erro inesperado inesperado ocorreu ao tentar criar o usuário. Tente mais tarde.",
@@ -83,8 +102,70 @@ describe("useAuth", () => {
         await result.current.registerUser(validUserInput);
       });
 
+      expect(toast.dismiss).toHaveBeenCalledTimes(1);
       expect(toast.error).toHaveBeenCalledWith(
         "Um erro inesperado inesperado ocorreu ao tentar criar o usuário. Tente mais tarde.",
+      );
+      expect(mockPush).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("loginUser", () => {
+    const validUserInput = {
+      email: "john@email.com",
+      password: "Password@123",
+    };
+
+    it("Should redirect to '/dashboard' after login", async () => {
+      jest.mocked(apiClient).mockResolvedValue({
+        data: {
+          message: "Login realizado com sucesso",
+        },
+        status: 200,
+      });
+
+      const { result } = renderHook(() => useAuth());
+      await act(async () => {
+        await result.current.loginUser(validUserInput);
+      });
+
+      expect(mockPush).toHaveBeenCalledWith("/dashboard");
+    });
+
+    it("Should show a toast with generic API error message when user dont exist", async () => {
+      jest.mocked(apiClient).mockResolvedValue({
+        error: ["Falha ao fazer login. Verifique suas credenciais."],
+        status: 400,
+      });
+
+      const { result } = renderHook(() => useAuth());
+      await act(async () => {
+        await result.current.loginUser(validUserInput);
+      });
+
+      expect(toast.dismiss).toHaveBeenCalledTimes(1);
+      expect(toast.error).toHaveBeenCalledWith(
+        "Falha ao fazer login. Verifique suas credenciais.",
+      );
+      expect(mockPush).not.toHaveBeenCalled();
+    });
+
+    it("Should show a generic error toast when an unexpected exception occurs", async () => {
+      jest.mocked(apiClient).mockResolvedValue({
+        error: [
+          "Um erro inesperado ocorreu ao tentar fazer o login. Tente mais tarde.",
+        ],
+        status: 500,
+      });
+
+      const { result } = renderHook(() => useAuth());
+      await act(async () => {
+        await result.current.loginUser(validUserInput);
+      });
+
+      expect(toast.dismiss).toHaveBeenCalledTimes(1);
+      expect(toast.error).toHaveBeenCalledWith(
+        "Um erro inesperado ocorreu ao tentar fazer o login. Tente mais tarde.",
       );
       expect(mockPush).not.toHaveBeenCalled();
     });
