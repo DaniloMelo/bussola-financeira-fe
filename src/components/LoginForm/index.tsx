@@ -59,7 +59,7 @@ export default function LoginForm() {
           type="email"
           placeholder="seu@email.com"
           autoComplete="email"
-          required
+          // required
           {...register("email")}
         />
 
@@ -68,7 +68,7 @@ export default function LoginForm() {
           type="password"
           placeholder="••••••••"
           autoComplete="current-password"
-          required
+          // required
           {...register("password")}
         />
 

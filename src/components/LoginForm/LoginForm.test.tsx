@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { useAuth } from "@/hooks/use-auth";
+import LoginForm from ".";
 import { render, screen, waitFor } from "@testing-library/react";
-import RegisterForm from ".";
 import userEvent from "@testing-library/user-event";
 import { toast } from "react-toastify";
 
@@ -33,45 +33,32 @@ jest.mock("react-toastify", () => ({
   },
 }));
 
-describe("RegisterForm", () => {
-  const mockRegisterUser = jest.fn();
+describe("LoginForm", () => {
+  const mockLoginUser = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
     jest.mocked(useAuth).mockReturnValue({
-      registerUser: mockRegisterUser,
-      loginUser: jest.fn(),
+      registerUser: jest.fn(),
+      loginUser: mockLoginUser,
       logoutUser: jest.fn(),
       isLoading: false,
     });
   });
 
   it("Should render all form fields", () => {
-    render(<RegisterForm />);
+    render(<LoginForm />);
 
-    expect(screen.getByLabelText("Nome")).toBeInTheDocument();
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
     expect(screen.getByLabelText("Senha")).toBeInTheDocument();
-    expect(screen.getByLabelText("Confirmar senha")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Criar" })).toBeInTheDocument();
-  });
-
-  it("Should show password strength when the user enters the password", async () => {
-    const user = userEvent.setup();
-    render(<RegisterForm />);
-
-    expect(screen.queryByText(/Força da senha:/i)).not.toBeInTheDocument();
-
-    await user.type(screen.getByLabelText("Senha"), "Password@123");
-
-    expect(screen.getByText(/Força da senha:/i)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Entrar" })).toBeInTheDocument();
   });
 
   it("Should show error toast when user submit the form with some invalid field", async () => {
     const user = userEvent.setup();
-    render(<RegisterForm />);
+    render(<LoginForm />);
 
-    await user.click(screen.getByRole("button", { name: "Criar" }));
+    await user.click(screen.getByRole("button", { name: "Entrar" }));
 
     await waitFor(() => {
       expect(toast.error).toHaveBeenCalled();
@@ -80,22 +67,18 @@ describe("RegisterForm", () => {
 
   it("Should call 'useAuth.registerUser' with correct data", async () => {
     const user = userEvent.setup();
-    render(<RegisterForm />);
+    render(<LoginForm />);
 
-    await user.type(screen.getByLabelText("Nome"), "John Doe");
     await user.type(screen.getByLabelText("Email"), "john@email.com");
     await user.type(screen.getByLabelText("Senha"), "Password@123");
-    await user.type(screen.getByLabelText("Confirmar senha"), "Password@123");
 
-    await user.click(screen.getByRole("button", { name: "Criar" }));
+    await user.click(screen.getByRole("button", { name: "Entrar" }));
 
     await waitFor(() => {
-      expect(mockRegisterUser).toHaveBeenCalledWith(
+      expect(mockLoginUser).toHaveBeenCalledWith(
         expect.objectContaining({
-          name: "John Doe",
           email: "john@email.com",
           password: "Password@123",
-          confirmPassword: "Password@123",
         }),
         expect.anything(), // Ignora os outros campos adicionais enviados pelo react-hook-form
       );
@@ -104,13 +87,13 @@ describe("RegisterForm", () => {
 
   it("Should disable the form button while the form is submited", () => {
     jest.mocked(useAuth).mockReturnValue({
-      registerUser: mockRegisterUser,
-      loginUser: jest.fn(),
+      registerUser: jest.fn(),
+      loginUser: mockLoginUser,
       logoutUser: jest.fn(),
       isLoading: true,
     });
 
-    render(<RegisterForm />);
+    render(<LoginForm />);
 
     expect(screen.getByRole("button", { name: "Aguarde" })).toBeDisabled();
   });
