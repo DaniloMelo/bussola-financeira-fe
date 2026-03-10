@@ -170,4 +170,58 @@ describe("useAuth", () => {
       expect(mockPush).not.toHaveBeenCalled();
     });
   });
+
+  describe("logoutUser", () => {
+    it("Should redirect to '/' after logout", async () => {
+      jest.mocked(apiClient).mockResolvedValue({
+        data: {
+          message: "Logout realizado com sucesso",
+        },
+        status: 200,
+      });
+
+      const { result } = renderHook(() => useAuth());
+      await act(async () => {
+        await result.current.logoutUser();
+      });
+
+      expect(mockPush).toHaveBeenCalledWith("/");
+    });
+
+    it("Should show a toast with generic API error message when logout fail", async () => {
+      jest.mocked(apiClient).mockResolvedValue({
+        error: ["Algum erro genérico de logout"],
+        status: 400,
+      });
+
+      const { result } = renderHook(() => useAuth());
+      await act(async () => {
+        await result.current.logoutUser();
+      });
+
+      expect(toast.dismiss).toHaveBeenCalledTimes(1);
+      expect(toast.error).toHaveBeenCalledWith("Algum erro genérico de logout");
+      expect(mockPush).not.toHaveBeenCalled();
+    });
+
+    it("Should show a generic error toast when an unexpected exception occurs", async () => {
+      jest.mocked(apiClient).mockResolvedValue({
+        error: [
+          "Um erro inesperado ocorreu ao tentar deslogar o usuário. Tente mais tarde.",
+        ],
+        status: 500,
+      });
+
+      const { result } = renderHook(() => useAuth());
+      await act(async () => {
+        await result.current.logoutUser();
+      });
+
+      expect(toast.dismiss).toHaveBeenCalledTimes(1);
+      expect(toast.error).toHaveBeenCalledWith(
+        "Um erro inesperado ocorreu ao tentar deslogar o usuário. Tente mais tarde.",
+      );
+      expect(mockPush).not.toHaveBeenCalled();
+    });
+  });
 });
