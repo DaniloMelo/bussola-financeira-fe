@@ -27,4 +27,8 @@ jobs:
         run: npm ci
 
       - name: Executar testes unitários e integração
+
+        API_URL: http://localhost:3001
+        ACCESS_TOKEN_COOKIE_NAME: ci-access-token
+
         run: npm run test
