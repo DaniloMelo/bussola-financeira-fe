@@ -33,6 +33,7 @@ export default function Input({ type, labelText, ...props }: InputTextProps) {
             type="button"
             onClick={() => setShowPassword(!showPassword)}
             className="cursor-pointer"
+            aria-label={showPassword ? "Esconder senha" : "Mostrar senha"}
           >
             {showPassword === true ? <LuEye /> : <LuEyeClosed />}
           </button>
