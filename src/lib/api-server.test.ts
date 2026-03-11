@@ -18,16 +18,10 @@ jest.mock("next/dist/client/components/redirect-error", () => ({
 }));
 
 const originalFetch = global.fetch;
-const originalEnv = process.env;
 
 describe("api-server", () => {
   beforeEach(() => {
     global.fetch = jest.fn();
-    process.env = {
-      ...originalEnv,
-      API_URL: "http://localhost:3001",
-      ACCESS_TOKEN_COOKIE_NAME: "access-token",
-    };
     jest.clearAllMocks();
 
     (isRedirectError as unknown as jest.Mock).mockImplementation(
@@ -37,7 +31,6 @@ describe("api-server", () => {
 
   afterAll(() => {
     global.fetch = originalFetch;
-    process.env = originalEnv;
   });
 
   describe("apiServer", () => {
