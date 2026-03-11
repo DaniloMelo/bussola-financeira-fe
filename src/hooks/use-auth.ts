@@ -80,9 +80,12 @@ export function useAuth() {
     setIsLoading(true);
 
     try {
-      const response = await apiClient("/api/auth/logout", {
-        method: "POST",
-      });
+      const response = await apiClient<{ message: string }>(
+        "/api/auth/logout",
+        {
+          method: "POST",
+        },
+      );
 
       if (response.error) {
         toast.dismiss();

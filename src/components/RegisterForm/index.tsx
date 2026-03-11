@@ -55,7 +55,7 @@ export default function RegisterForm() {
           type="text"
           placeholder="Seu Nome"
           autoComplete="name"
-          required
+          // required
           {...register("name")}
         />
 
@@ -64,7 +64,7 @@ export default function RegisterForm() {
           type="email"
           placeholder="seu@email.com"
           autoComplete="email"
-          required
+          // required
           {...register("email")}
         />
 
@@ -73,7 +73,7 @@ export default function RegisterForm() {
           type="password"
           placeholder="••••••••"
           autoComplete="new-password"
-          required
+          // required
           {...register("password")}
         />
 

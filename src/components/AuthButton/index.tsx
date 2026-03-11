@@ -1,4 +1,4 @@
-import Wait from "./Wait";
+import { CgSpinner } from "react-icons/cg";
 
 type AuthButtonProps = {
   text: string;
@@ -13,7 +13,16 @@ export default function AuthButton({ text, ...props }: AuthButtonProps) {
          text-white rounded-sm mt-4 p-1 font-semibold
       `}
     >
-      {props.disabled ? <Wait /> : text}
+      {props.disabled ? (
+        <p className="flex justify-center items-center gap-x-2">
+          Aguarde{" "}
+          <span className="animate-spin">
+            <CgSpinner size={20} />
+          </span>
+        </p>
+      ) : (
+        text
+      )}
     </button>
   );
 }

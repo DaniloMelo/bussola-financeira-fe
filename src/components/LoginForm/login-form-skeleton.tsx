@@ -1,4 +1,4 @@
-import Wait from "../AuthButton/Wait";
+import { CgSpinner } from "react-icons/cg";
 import AuthLayout from "../AuthLayout";
 
 export default function LoginFormSkeleton() {
@@ -14,7 +14,12 @@ export default function LoginFormSkeleton() {
         </div>
 
         <button className="bg-zinc-500 cursor-not-allowed text-white rounded-sm mt-4 p-1 font-semibold animate-pulse">
-          <Wait />
+          <p className="flex justify-center items-center gap-x-2">
+            Aguarde{" "}
+            <span className="animate-spin">
+              <CgSpinner size={20} />
+            </span>
+          </p>
         </button>
       </div>
     </AuthLayout>
