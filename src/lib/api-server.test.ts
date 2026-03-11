@@ -23,7 +23,11 @@ const originalEnv = process.env;
 describe("api-server", () => {
   beforeEach(() => {
     global.fetch = jest.fn();
-    process.env = { ...originalEnv, API_URL: "http://localhost:3001" };
+    process.env = {
+      ...originalEnv,
+      API_URL: "http://localhost:3001",
+      ACCESS_TOKEN_COOKIE_NAME: "access-token",
+    };
     jest.clearAllMocks();
 
     (isRedirectError as unknown as jest.Mock).mockImplementation(
