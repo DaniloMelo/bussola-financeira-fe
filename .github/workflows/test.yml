@@ -32,5 +32,7 @@ jobs:
           API_URL: http://localhost:3001
           ACCESS_TOKEN_COOKIE_NAME: access-token
           ACCESS_TOKEN_EXP: 900
+          REFRESH_TOKEN_COOKIE_NAME: refresh-token
+          REFRESH_TOKEN_EXP: 900
 
         run: npm run test
