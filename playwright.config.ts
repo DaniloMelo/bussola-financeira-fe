@@ -10,6 +10,8 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: "html",
 
+  globalSetup: require.resolve("./e2e/setup.ts"),
+
   use: {
     baseURL,
     trace: "on-first-retry",
