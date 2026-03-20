@@ -1,38 +1,3 @@
-// import { test as setup } from "@playwright/test";
-
-// const API_URL = process.env.API_URL || "http://localhost:3001";
-
-// setup("API warmup", async ({ request }) => {
-//   console.log(`Starting API warmup on ${API_URL}`);
-
-//   const maxAttempts = 3;
-//   let success = false;
-
-//   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-//     try {
-//       console.log(`Attempt #${attempt}`);
-//       const response = await request.get(`${API_URL}/v1/health`, {
-//         timeout: 60 * 1000,
-//       });
-
-//       if (response.ok()) {
-//         console.log("API successfully warmed up");
-//         success = true;
-//         break;
-//       }
-//     } catch (error) {
-//       console.log(`Still warming up... (${(error as Error).message})`);
-//       if (attempt < maxAttempts) {
-//         await new Promise((resolve) => setTimeout(resolve, 5 * 1000));
-//       }
-//     }
-//   }
-
-//   if (!success) {
-//     throw new Error(`Failure to warmup the API after ${maxAttempts} attempts`);
-//   }
-// });
-
 import { request } from "@playwright/test";
 
 const API_URL = process.env.API_URL || "http://localhost:3001";
