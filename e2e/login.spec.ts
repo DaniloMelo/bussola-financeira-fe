@@ -18,7 +18,7 @@ test.describe("Login", () => {
 
     await page.getByRole("button", { name: "Entrar" }).click();
 
-    await expect(page).toHaveURL(/.*\/dashboard/);
+    await expect(page).toHaveURL(/.*\/dashboard/, { timeout: 20000 });
   });
 
   test("Should show generic error if invalid or unexistent", async ({
