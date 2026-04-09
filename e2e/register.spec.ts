@@ -83,7 +83,9 @@ test.describe("Register", () => {
 
     await page.getByRole("button", { name: "Criar" }).click();
 
-    const errorMessage = page.getByText(/Verifique suas credenciais./i);
+    const errorMessage = page.getByText(
+      /Falha ao criar o usuário. Verifique os dados fornecidos./i,
+    );
 
     await expect(errorMessage).toBeVisible();
   });

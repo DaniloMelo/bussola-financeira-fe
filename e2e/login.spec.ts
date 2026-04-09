@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-export const E2E_LOGIN_REGULAR_USER = {
+const E2E_LOGIN_REGULAR_USER = {
   email: "testuser2e2fe@email.com",
   passoword: "StrongPass@123",
 };
