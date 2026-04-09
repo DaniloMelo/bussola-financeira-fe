@@ -1,5 +1,4 @@
 import { test, expect } from "@playwright/test";
-import { E2E_LOGIN_REGULAR_USER } from "./login.spec";
 
 const E2E_REGISTER_REGULAR_USER = {
   name: "E2E test user",
@@ -72,7 +71,7 @@ test.describe("Register", () => {
 
     await page
       .getByRole("textbox", { name: "Email", exact: true })
-      .fill(E2E_LOGIN_REGULAR_USER.email);
+      .fill("testuser2e2fe@email.com");
 
     await page
       .getByRole("textbox", { name: "Senha", exact: true })
