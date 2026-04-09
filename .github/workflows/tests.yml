@@ -1,0 +1,73 @@
+name: Testes
+
+on:
+  push:
+    branches:
+      - "**"
+      - "!main"
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  unit_integration:
+    name: Testes unitários e integração
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js (v22)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Instalar Dependências
+        run: npm ci
+
+      - name: Executar testes unitários e integração
+
+        env:
+          API_URL: http://localhost:3001
+          ACCESS_TOKEN_COOKIE_NAME: access-token
+          ACCESS_TOKEN_EXP: 900
+          REFRESH_TOKEN_COOKIE_NAME: refresh-token
+          REFRESH_TOKEN_EXP: 900
+
+        run: npm run test
+
+  e2e:
+    name: Testes E2E
+    needs: unit_integration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: Aguardar Deploy da Vercel e Obter URL
+        id: vercel_preview
+        uses: patrickedqvist/wait-for-vercel-preview@v1.3.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          max_timeout: 300
+
+      - name: Instalar Dependências
+        run: npm ci
+
+      - name: Instalar Navegadores (Playwright)
+        run: npx playwright install --with-deps
+
+      - name: Executar Testes E2E
+        env:
+          BASE_URL: ${{ steps.vercel_preview.outputs.url }}
+          API_URL: ${{ github.base_ref == 'main' && 'https://bussola-financeira-be-prod.onrender.com' || 'https://bussola-financeira-be.onrender.com' }}
+        run: npx playwright test
+
+      - name: Salvar relatórios
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-playwright
+          path: playwright-report/
+          retention-days: 7
