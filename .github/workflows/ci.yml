@@ -1,0 +1,95 @@
+name: CI - Testes & Linting
+
+on:
+  pull_request:
+    branches:
+      - staging
+      - main
+
+env:
+  API_URL: http://localhost:3001
+  ACCESS_TOKEN_COOKIE_NAME: access-token
+  ACCESS_TOKEN_EXP: 900
+  REFRESH_TOKEN_COOKIE_NAME: refresh-token
+  REFRESH_TOKEN_EXP: 900
+
+jobs:
+  lint-prettier:
+    name: Lint (Prettier)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Instalar Dependências
+        run: npm ci
+
+      - name: Checar Formatacao (Prettier)
+        run: npm run lint:prettier:check
+
+  lint-eslint:
+    name: Lint (ESLint)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Instalar Dependências
+        run: npm ci
+
+      - name: Checar Qualidade (ESLint)
+        run: npm run lint:eslint:check
+
+  lint-commitlint:
+    name: Lint (Commitlint)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Instalar Dependências
+        run: npm ci
+
+      - name: Validar Mensagens de Commit
+        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+        if: github.event_name == 'pull_request'
+
+  unit-integration:
+    name: Testes unitários e integração
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Instalar Dependências
+        run: npm ci
+
+      - name: Executar testes unitários e integração
+
+        run: npm run test
