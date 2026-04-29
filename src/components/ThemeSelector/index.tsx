@@ -28,7 +28,7 @@ export default function ThemeSelector() {
   }
 
   return (
-    <div className="flex w-fit gap-1 rounded-lg bg-card p-1">
+    <div className="flex w-fit gap-1 rounded-lg bg-zinc-300 p-1">
       {themes.map(({ value, label, icon: Icon }) => {
         const isActive = theme === value;
 
@@ -41,8 +41,8 @@ export default function ThemeSelector() {
               transition-colors
               ${
                 isActive
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted hover:bg-border hover:text-foreground"
+                  ? "bg-blue-500 text-white"
+                  : "text-zinc-500 hover:bg-border hover:text-foreground"
               }
             `}
           >
