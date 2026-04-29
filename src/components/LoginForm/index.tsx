@@ -74,9 +74,14 @@ export default function LoginForm() {
 
         <AuthButton text="Entrar" disabled={isLoading} />
 
-        <Link href="/register" className="self-center text-zinc-500 mt-5">
+        <Link
+          href="/register"
+          className="mt-5 self-center text-secondary-text dark:text-secondary-text"
+        >
           Ainda não tem uma conta?{" "}
-          <span className="font-semibold text-foreground">Criar</span>
+          <span className="font-semibold text-primary-text dark:text-primary-text">
+            Criar
+          </span>
         </Link>
       </form>
     </AuthLayout>
