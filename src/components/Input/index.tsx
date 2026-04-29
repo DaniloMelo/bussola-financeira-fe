@@ -21,7 +21,13 @@ export default function Input({ type, labelText, ...props }: InputTextProps) {
         </label>
       )}
 
-      <div className="flex pr-2 border rounded-sm border-zinc-500/50 focus-within:border-zinc-600">
+      <div
+        className="
+          flex pr-2 border rounded-sm
+        bg-secondary-background dark:bg-secondary-background
+        border-secondary-border focus-within:border-primary-border dark:border-secondary-border dark:focus-within:border-primary-border
+        "
+      >
         <input
           {...props}
           type={showPassword === true ? "text" : type}
