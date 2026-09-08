@@ -91,7 +91,9 @@ export default function RegisterForm() {
 
         <Link href="/" className="self-center text-zinc-500 mt-5">
           já tem uma conta?{" "}
-          <span className="font-semibold text-foreground">Entrar</span>
+          <span className="font-semibold text-primary-text dark:text-primary-text">
+            Entrar
+          </span>
         </Link>
       </form>
     </AuthLayout>

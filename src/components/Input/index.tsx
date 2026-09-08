@@ -23,25 +23,24 @@ export default function Input({ type, labelText, ...props }: InputTextProps) {
 
       <div
         className="
-          flex pr-2 border rounded-sm 
+          h-15 text-xl lg:h-10 lg:text-base
+          flex border rounded-sm 
           bg-secondary-background dark:bg-secondary-background 
           border-secondary-border focus-within:border-primary-border dark:border-secondary-border dark:focus-within:border-primary-border
+          placeholder:text-muted-text dark:placeholder:text-muted-text text-primary-text dark:text-primary-text
         "
       >
         <input
           {...props}
           type={showPassword === true ? "text" : type}
           id={id}
-          className="
-            w-full p-1 outline-none [&::-ms-reveal]:hidden [&::-ms-clear]:hidden 
-            placeholder:text-muted-text dark:placeholder:text-muted-text text-primary-text dark:text-primary-text
-          "
+          className="w-full py-1 px-4 lg:px-2 outline-none [&::-ms-reveal]:hidden [&::-ms-clear]:hidden"
         />
         {isPasswordInput && (
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="cursor-pointer"
+            className="cursor-pointer pr-2"
             aria-label={showPassword ? "Esconder senha" : "Mostrar senha"}
           >
             {showPassword === true ? <LuEye /> : <LuEyeClosed />}

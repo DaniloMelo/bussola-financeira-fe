@@ -16,10 +16,9 @@ export default function AuthLayout({
       <div className="flex items-center justify-center p-6">
         <div className="w-full max-w-md">
           <header className="text-center mb-6">
-            <h1 className="text-2xl font-bold text-primary-text dark:text-primary-text">
+            <h1 className="text-[clamp(1.5rem,3rem-3vw,2rem)] font-bold text-primary-text dark:text-primary-text">
               {title}
             </h1>
-            {/* <p className="text-zinc-500 dark:text-zinc-400 mt-1"> */}
             <p className="text-secondary-text dark:text-secondary-text">
               {description}
             </p>
