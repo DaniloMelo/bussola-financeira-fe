@@ -23,3 +23,7 @@ export type JwtPayload = {
   aud: string;
   iss: string;
 };
+
+export type RequestResetPasswordInput = {
+  email: string;
+};
