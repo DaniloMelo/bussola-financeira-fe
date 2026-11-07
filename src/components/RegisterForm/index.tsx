@@ -95,6 +95,16 @@ export default function RegisterForm() {
             Entrar
           </span>
         </Link>
+
+        <Link
+          href={"/password/request"}
+          className="mt-2 self-center text-secondary-text dark:text-secondary-text"
+        >
+          Esqueceu sua senha?{" "}
+          <span className="font-semibold text-primary-text dark:text-primary-text">
+            Alterar
+          </span>
+        </Link>
       </form>
     </AuthLayout>
   );
