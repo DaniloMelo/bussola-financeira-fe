@@ -36,7 +36,7 @@ export function useAuth() {
       }
 
       toast.error(
-        "Um erro inesperado inesperado ocorreu ao tentar criar o usuário. Tente mais tarde.",
+        "Um erro inesperado ocorreu ao tentar criar o usuário. Tente mais tarde.",
       );
     } finally {
       setIsLoading(false);

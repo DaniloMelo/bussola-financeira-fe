@@ -92,7 +92,7 @@ describe("useAuth", () => {
     it("Should show a generic error toast when an unexpected exception occurs", async () => {
       jest.mocked(apiClient).mockResolvedValue({
         error: [
-          "Um erro inesperado inesperado ocorreu ao tentar criar o usuário. Tente mais tarde.",
+          "Um erro inesperado ocorreu ao tentar criar o usuário. Tente mais tarde.",
         ],
         status: 500,
       });
@@ -104,7 +104,7 @@ describe("useAuth", () => {
 
       expect(toast.dismiss).toHaveBeenCalledTimes(1);
       expect(toast.error).toHaveBeenCalledWith(
-        "Um erro inesperado inesperado ocorreu ao tentar criar o usuário. Tente mais tarde.",
+        "Um erro inesperado ocorreu ao tentar criar o usuário. Tente mais tarde.",
       );
       expect(mockPush).not.toHaveBeenCalled();
     });
