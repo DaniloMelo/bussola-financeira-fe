@@ -1,5 +1,5 @@
 import { ApiErrors } from "@/lib/api-client";
-import { RequestResetPasswordInput } from "@/types/auth";
+import { RequestResetPasswordInput } from "@/types/reset-password";
 import { NextRequest, NextResponse } from "next/server";
 
 const API_URL = process.env.API_URL;
