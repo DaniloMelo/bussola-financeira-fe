@@ -15,8 +15,10 @@ jest.mock("react-toastify", () => ({
 
 describe("RequestResetPasswordForm", () => {
   const mockRequestPasswordReset = jest.fn();
+
   beforeEach(() => {
     jest.clearAllMocks();
+
     jest.mocked(useResetPassword).mockReturnValue({
       requestPasswordReset: mockRequestPasswordReset,
       resetPassword: jest.fn(),
@@ -49,7 +51,7 @@ describe("RequestResetPasswordForm", () => {
     });
   });
 
-  it("Should call 'useAuth.registerUser' with correct data", async () => {
+  it("Should call 'useResetPassword.requestPasswordReset' with correct data", async () => {
     const user = userEvent.setup();
     render(<RequestResetPasswordForm />);
 
