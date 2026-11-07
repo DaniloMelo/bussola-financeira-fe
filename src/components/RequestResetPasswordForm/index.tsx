@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { extractFormErrors } from "@/lib/extract-form-errors";
+import Link from "next/link";
 
 export default function RequestResetPasswordForm() {
   const { isLoading, requestPasswordReset } = useResetPassword();
@@ -51,6 +52,13 @@ export default function RequestResetPasswordForm() {
         />
 
         <AuthButton text="Enviar" disabled={isLoading} />
+
+        <Link href="/" className="self-center text-zinc-500 mt-5">
+          Voltar para{" "}
+          <span className="font-semibold text-primary-text dark:text-primary-text">
+            login
+          </span>
+        </Link>
       </form>
     </AuthLayout>
   );
