@@ -55,8 +55,6 @@ export function useResetPassword() {
   async function resetPassword(data: ResetPasswordPublicInput) {
     setIsLoading(true);
 
-    console.log("HOOK ==> ", data);
-
     try {
       const { password, email, rawToken } = data;
 

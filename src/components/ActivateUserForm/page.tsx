@@ -5,17 +5,18 @@ import AuthLayout from "../AuthLayout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { activateUserSchema } from "@/schemas/activate-user";
 import AuthButton from "../AuthButton";
-import { useRouter, useSearchParams } from "next/navigation";
+import { /*useRouter*/ useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { extractFormErrors } from "@/lib/extract-form-errors";
+import { useActivateUser } from "@/hooks/activate-user";
 
 export default function ActivateUserForm() {
   const searchParams = useSearchParams();
-  const router = useRouter();
-
+  // const router = useRouter();
   const emailParam = searchParams.get("email")!;
-  console.log(emailParam);
+
+  const { isLoading, activate } = useActivateUser();
 
   const {
     register,
@@ -24,6 +25,14 @@ export default function ActivateUserForm() {
   } = useForm({
     resolver: zodResolver(activateUserSchema),
   });
+
+  useEffect(() => {
+    toast.dismiss();
+    const errorMessages = extractFormErrors(errors);
+    errorMessages.forEach((error) => {
+      toast.error(error);
+    });
+  }, [errors]);
 
   useEffect(() => {
     if (emailParam) {
@@ -35,17 +44,20 @@ export default function ActivateUserForm() {
       // url.searchParams.delete("email");
       // router.replace(url.toString());
     }
-  }, [emailParam, router]);
+  }, [emailParam]);
 
-  useEffect(() => {
-    toast.dismiss();
-    const errorMessages = extractFormErrors(errors);
-    errorMessages.forEach((error) => {
-      toast.error(error);
+  function onSubmit(data: { rawCode: string }) {
+    // Essa função intermediária entre handleSubmit (RHF) e resetPassword,
+    // foi necessária para passar as query strings para a função resetPassword,
+    // pois somente aqui no componente temos acesso a URL correta.
+
+    console.log("EMAIL: ", emailParam);
+
+    return activate({
+      ...data,
+      email: emailParam,
     });
-  }, [errors]);
-
-  function onSubmit() {}
+  }
 
   return (
     <AuthLayout
@@ -53,7 +65,7 @@ export default function ActivateUserForm() {
       description="Informe o código para ativar o seu usuário"
     >
       <form
-        onSubmit={() => handleSubmit(onSubmit)}
+        onSubmit={(e) => void handleSubmit(onSubmit)(e)}
         className="flex flex-col items-center-safe"
       >
         <input
@@ -66,7 +78,7 @@ export default function ActivateUserForm() {
           {...register("rawCode")}
         />
 
-        <AuthButton text="Ativar" />
+        <AuthButton text="Ativar" disabled={isLoading} />
       </form>
     </AuthLayout>
   );
