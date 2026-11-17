@@ -10,13 +10,14 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { extractFormErrors } from "@/lib/extract-form-errors";
 import { useActivateUser } from "@/hooks/activate-user";
+import Link from "next/link";
 
 export default function ActivateUserForm() {
   const searchParams = useSearchParams();
   // const router = useRouter();
   const emailParam = searchParams.get("email")!;
 
-  const { isLoading, activate } = useActivateUser();
+  const { isLoading, activate, resend } = useActivateUser();
 
   const {
     register,
@@ -50,9 +51,6 @@ export default function ActivateUserForm() {
     // Essa função intermediária entre handleSubmit (RHF) e resetPassword,
     // foi necessária para passar as query strings para a função resetPassword,
     // pois somente aqui no componente temos acesso a URL correta.
-
-    console.log("EMAIL: ", emailParam);
-
     return activate({
       ...data,
       email: emailParam,
@@ -79,6 +77,29 @@ export default function ActivateUserForm() {
         />
 
         <AuthButton text="Ativar" disabled={isLoading} />
+
+        <span
+          onClick={() => void resend({ email: emailParam })}
+          className="self-center text-zinc-500 mt-5 cursor-pointer"
+        >
+          Não recebeu o código no e-email?{" "}
+          <button
+            type="button"
+            className="font-semibold cursor-pointer text-primary-text dark:text-primary-text"
+          >
+            Reenviar
+          </button>
+        </span>
+
+        <Link
+          href={"/"}
+          className="mt-2 self-center text-secondary-text dark:text-secondary-text"
+        >
+          Voltar para{" "}
+          <span className="font-semibold text-primary-text dark:text-primary-text">
+            login
+          </span>
+        </Link>
       </form>
     </AuthLayout>
   );
