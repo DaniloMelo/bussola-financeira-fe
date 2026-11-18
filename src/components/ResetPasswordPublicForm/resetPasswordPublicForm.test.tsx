@@ -19,6 +19,7 @@ jest.mock("next/navigation", () => ({
   ...jest.requireActual("next/navigation"),
   useSearchParams: jest.fn(),
 }));
+
 const mockUseSearchParams = useSearchParams as jest.Mock;
 
 describe("resetPasswordPublicForm", () => {

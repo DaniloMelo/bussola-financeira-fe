@@ -50,7 +50,6 @@ export default function ResetPasswordPublicForm() {
     // Essa função intermediária entre handleSubmit (RHF) e resetPassword,
     // foi necessária para passar as query strings para a função resetPassword,
     // pois somente aqui no componente temos acesso a URL correta.
-    console.log("FUNÇÃO ONSUBMIT", data);
     await resetPassword({
       ...data,
       rawToken,

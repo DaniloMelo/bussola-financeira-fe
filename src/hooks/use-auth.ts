@@ -28,7 +28,7 @@ export function useAuth() {
         return;
       }
 
-      router.push("/?created=1");
+      router.push(`/user/activate?email=${encodeURIComponent(email)}`);
       return true;
     } catch (error: unknown) {
       if (process.env.NODE_ENV != "production") {
