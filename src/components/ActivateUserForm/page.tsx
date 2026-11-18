@@ -9,7 +9,7 @@ import { /*useRouter*/ useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { extractFormErrors } from "@/lib/extract-form-errors";
-import { useActivateUser } from "@/hooks/activate-user";
+import { useActivateUser } from "@/hooks/use-activate-user";
 import Link from "next/link";
 
 export default function ActivateUserForm() {
