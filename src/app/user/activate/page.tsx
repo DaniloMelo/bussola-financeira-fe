@@ -1,5 +1,10 @@
 import ActivateUserForm from "@/components/ActivateUserForm/page";
+import { Suspense } from "react";
 
 export default function ActivateUserPage() {
-  return <ActivateUserForm />;
+  return (
+    <Suspense>
+      <ActivateUserForm />
+    </Suspense>
+  );
 }
