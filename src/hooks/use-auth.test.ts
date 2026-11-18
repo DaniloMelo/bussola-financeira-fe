@@ -36,7 +36,7 @@ describe("useAuth", () => {
       confirmPassword: "Password@123",
     };
 
-    it("Should redirect to '/?created=1' after registration", async () => {
+    it("Should redirect to '/user/activate?email=john%40email.com' after registration", async () => {
       jest.mocked(apiClient).mockResolvedValue({
         data: {
           id: "1",
@@ -50,7 +50,9 @@ describe("useAuth", () => {
         await result.current.registerUser(validUserInput);
       });
 
-      expect(mockPush).toHaveBeenCalledWith("/?created=1");
+      expect(mockPush).toHaveBeenCalledWith(
+        "/user/activate?email=john%40email.com",
+      );
     });
 
     it("Should show a toast with generic API error message when user already exists", async () => {

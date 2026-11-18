@@ -1,4 +1,4 @@
-import ResetPasswordPublicForm from "@/components/resetPasswordPublicForm";
+import ResetPasswordPublicForm from "@/components/ResetPasswordPublicForm";
 import { Suspense } from "react";
 
 export default function ResetPasswordPage() {

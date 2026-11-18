@@ -10,15 +10,10 @@ import { extractFormErrors } from "@/lib/extract-form-errors";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
-import { useRouter, useSearchParams } from "next/navigation";
 import AuthButton from "../AuthButton";
 
 export default function LoginForm() {
   const { loginUser, isLoading } = useAuth();
-
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const createdUserQueryString = searchParams.get("created");
 
   const {
     register,
@@ -35,15 +30,6 @@ export default function LoginForm() {
       toast.error(error);
     });
   }, [errors]);
-
-  useEffect(() => {
-    if (createdUserQueryString === "1") {
-      toast.success("Usuário criado! Faça login para continuar.");
-      const url = new URL(window.location.href);
-      url.searchParams.delete("created");
-      router.replace(url.toString());
-    }
-  }, [createdUserQueryString, router]);
 
   return (
     <AuthLayout

@@ -7,8 +7,6 @@ const API_URL = process.env.API_URL;
 export async function POST(request: NextRequest) {
   const body = (await request.json()) as ResetPasswordPublicInput;
 
-  console.log("API ==> ", body);
-
   const backendResponse = await fetch(`${API_URL}/v1/auth/reset-password`, {
     method: "POST",
     headers: {
