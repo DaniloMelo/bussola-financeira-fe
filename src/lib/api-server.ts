@@ -1,3 +1,4 @@
+import "server-only";
 import { redirect } from "next/navigation";
 import { getAccessToken } from "./cookies";
 import { User } from "@/types/user";
@@ -5,6 +6,12 @@ import { ApiErrors, ErrorResponse, SuccessResponse } from "./api-client";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 const API_URL = process.env.API_URL;
+
+type ApiServerOptions = RequestInit & {
+  /** true (padrão): redireciona para "/" em 401/403.
+   *  false: devolve um ErrorResponse (use em Route Handlers). */
+  redirectOnAuthError?: boolean;
+};
 
 /**
  * Faz requisições autenticadas para o backend
@@ -16,52 +23,59 @@ const API_URL = process.env.API_URL;
  */
 export async function apiServer<T>(
   endpoint: string,
-  options?: RequestInit,
+  options: ApiServerOptions = {},
 ): Promise<SuccessResponse<T> | ErrorResponse> {
+  const { redirectOnAuthError = true, ...fetchOptions } = options;
+
   try {
     const accessToken = await getAccessToken();
 
     if (!accessToken) {
-      redirect("/");
+      if (redirectOnAuthError) redirect("/");
+      return { error: ["Você não está autenticado"], status: 401 };
     }
 
     const response = await fetch(`${API_URL}${endpoint}`, {
-      ...options,
+      ...fetchOptions,
       headers: {
         "Content-Type": "application/json",
-        ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
-        ...options?.headers,
+        Authorization: `Bearer ${accessToken}`,
+        ...fetchOptions.headers,
       },
       cache: "no-store",
     });
 
     if (response.status === 401 || response.status === 403) {
-      redirect("/");
+      if (redirectOnAuthError) redirect("/");
+      return {
+        error: [
+          response.status === 401
+            ? "Sessão expirada"
+            : "Você não tem permissão para esta ação",
+        ],
+        status: response.status,
+      };
     }
 
     if (!response.ok) {
-      const body = (await response.json()) as ApiErrors;
+      // .catch evita quebrar se o corpo não for JSON
+      const body = (await response
+        .json()
+        .catch(() => null)) as ApiErrors | null;
       return {
-        error: body.message,
+        error: body?.message ?? ["Erro inesperado no servidor"],
         status: response.status,
       };
     }
 
     const body = (await response.json()) as T;
-
-    return {
-      data: body,
-      status: response.status,
-    };
+    return { data: body, status: response.status };
   } catch (error: unknown) {
-    if (isRedirectError(error)) {
-      throw error;
-    }
+    if (isRedirectError(error)) throw error;
 
-    return {
-      error: ["Erro de conexão com o servidor"],
-      status: 500,
-    };
+    console.error("[apiServer] falha ao chamar", endpoint, error);
+
+    return { error: ["Erro de conexão com o servidor"], status: 500 };
   }
 }
 
