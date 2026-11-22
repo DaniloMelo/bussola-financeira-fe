@@ -34,8 +34,6 @@ export function useResetPassword() {
 
       toast.dismiss();
       toast.success(response.data.message);
-
-      // return true;
     } catch (error: unknown) {
       if (process.env.NODE_ENV != "production") {
         console.error(
