@@ -19,6 +19,3 @@ export default function UpstashUpdatePage() {
     </section>
   );
 }
-
-// <p>14 dias upstash</p>
-// <p>lembre-se de enviar o email também no ambiente de staging</p>

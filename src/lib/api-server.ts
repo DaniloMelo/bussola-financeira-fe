@@ -1,8 +1,8 @@
-import { redirect } from "next/navigation";
+import { redirect, unstable_rethrow } from "next/navigation";
 import { getAccessToken } from "./cookies";
 import { User } from "@/types/user";
 import { ApiErrors, ErrorResponse, SuccessResponse } from "./api-client";
-import { isRedirectError } from "next/dist/client/components/redirect-error";
+// import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 const API_URL = process.env.API_URL;
 
@@ -54,9 +54,13 @@ export async function apiServer<T>(
       status: response.status,
     };
   } catch (error: unknown) {
-    if (isRedirectError(error)) {
-      throw error;
-    }
+    // if (isRedirectError(error)) {
+    //   throw error;
+    // }
+
+    unstable_rethrow(error);
+
+    console.error("[apiServer] falha ao chamar", endpoint, error);
 
     return {
       error: ["Erro de conexão com o servidor"],
