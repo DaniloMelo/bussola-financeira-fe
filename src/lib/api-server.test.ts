@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/require-await */
 
-import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { getAccessToken } from "./cookies";
 import { apiServer, requireAdminRole } from "./api-server";
 import { redirect } from "next/navigation";
@@ -11,10 +10,11 @@ jest.mock("next/navigation", () => ({
   redirect: jest.fn(() => {
     throw new Error("NEXT_REDIRECT");
   }),
-}));
-
-jest.mock("next/dist/client/components/redirect-error", () => ({
-  isRedirectError: jest.fn(),
+  unstable_rethrow: jest.fn((error: unknown) => {
+    if (error instanceof Error && error.message === "NEXT_REDIRECT") {
+      throw error;
+    }
+  }),
 }));
 
 const originalFetch = global.fetch;
@@ -23,10 +23,6 @@ describe("api-server", () => {
   beforeEach(() => {
     global.fetch = jest.fn();
     jest.clearAllMocks();
-
-    (isRedirectError as unknown as jest.Mock).mockImplementation(
-      (err) => err instanceof Error && err.message === "NEXT_REDIRECT",
-    );
   });
 
   afterAll(() => {
@@ -37,7 +33,7 @@ describe("api-server", () => {
     it("Should redirect to '/' if dont have 'access-token' cookie", async () => {
       jest.mocked(getAccessToken).mockResolvedValue(undefined);
 
-      await expect(apiServer).rejects.toThrow("NEXT_REDIRECT");
+      await expect(apiServer("/v1/user/me")).rejects.toThrow("NEXT_REDIRECT");
 
       expect(redirect).toHaveBeenCalledWith("/");
       expect(global.fetch).not.toHaveBeenCalled();
@@ -74,9 +70,30 @@ describe("api-server", () => {
         status: 401,
       });
 
-      await expect(apiServer).rejects.toThrow("NEXT_REDIRECT");
+      await expect(apiServer("/v1/user/me")).rejects.toThrow("NEXT_REDIRECT");
 
       expect(redirect).toHaveBeenCalledWith("/");
+    });
+
+    it("Should return 500 when fetch fails with a non-Next error", async () => {
+      jest.mocked(getAccessToken).mockResolvedValue("token");
+
+      (global.fetch as jest.Mock).mockRejectedValue(
+        new TypeError("fetch failed"),
+      );
+
+      const result = await apiServer("/v1/user/me");
+
+      expect(result).toEqual({
+        error: ["Erro de conexão com o servidor"],
+        status: 500,
+      });
+    });
+
+    it("Should rethrow Next internal errors instead of swallowing them", async () => {
+      jest.mocked(getAccessToken).mockRejectedValue(new Error("NEXT_REDIRECT"));
+
+      await expect(apiServer("/v1/user/me")).rejects.toThrow("NEXT_REDIRECT");
     });
   });
 
