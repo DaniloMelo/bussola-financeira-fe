@@ -10,6 +10,8 @@
   --color-muted-text: #888888;
   --color-primary-border: #222222;
   --color-secondary-border: #959595;
+  /* 1920px */
+  --container-8xl: 120rem;
 }
 
 .dark {

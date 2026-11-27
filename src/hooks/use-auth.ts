@@ -1,6 +1,7 @@
 import { apiClient } from "@/lib/api-client";
 import { LoginUserInput, RegisterUserInput } from "@/types/auth";
 import { User } from "@/types/user";
+import simulateWait from "@/utils/simulate-wait";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -80,6 +81,8 @@ export function useAuth() {
     setIsLoading(true);
 
     try {
+      await simulateWait(2);
+
       const response = await apiClient<{ message: string }>(
         "/api/auth/logout",
         {

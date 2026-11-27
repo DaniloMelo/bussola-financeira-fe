@@ -10,13 +10,16 @@ export default function LogoutButton() {
     <button
       onClick={() => void logoutUser()}
       disabled={isLoading}
-      className="py-2 px-4 "
+      className="
+        cursor-pointer px-4 py-2 text-xl transition-colors duration-200
+        text-zinc-600 dark:text-zinc-400"
     >
       {isLoading ? (
-        "Aguade..."
+        <span>Aguarde...</span>
       ) : (
-        <div className="flex justify-center items-center gap-x-2">
-          Sair <LuLogOut />
+        <div className="flex items-center gap-2 hover:text-zinc-900 dark:hover:text-zinc-200">
+          <span>Sair</span>
+          <LuLogOut />
         </div>
       )}
     </button>
