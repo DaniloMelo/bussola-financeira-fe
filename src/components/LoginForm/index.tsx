@@ -62,7 +62,7 @@ export default function LoginForm() {
 
         <Link
           href="/register"
-          className="mt-5 self-center text-secondary-text dark:text-secondary-text"
+          className="mt-5 self-center text-secondary-text dark:text-secondary-text dark:outline-primary-border"
         >
           Ainda não tem uma conta?{" "}
           <span className="font-semibold text-primary-text dark:text-primary-text">
@@ -72,7 +72,7 @@ export default function LoginForm() {
 
         <Link
           href={"/password/request"}
-          className="mt-2 self-center text-secondary-text dark:text-secondary-text"
+          className="mt-2 self-center text-secondary-text dark:text-secondary-text dark:outline-primary-border"
         >
           Esqueceu sua senha?{" "}
           <span className="font-semibold text-primary-text dark:text-primary-text">

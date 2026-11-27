@@ -89,7 +89,10 @@ export default function RegisterForm() {
 
         <AuthButton text="Criar" disabled={isLoading} />
 
-        <Link href="/" className="self-center text-zinc-500 mt-5">
+        <Link
+          href="/"
+          className="self-center text-zinc-500 mt-5 dark:outline-primary-border"
+        >
           já tem uma conta?{" "}
           <span className="font-semibold text-primary-text dark:text-primary-text">
             Entrar
@@ -98,7 +101,7 @@ export default function RegisterForm() {
 
         <Link
           href={"/password/request"}
-          className="mt-2 self-center text-secondary-text dark:text-secondary-text"
+          className="mt-2 self-center text-secondary-text dark:text-secondary-text dark:outline-primary-border"
         >
           Esqueceu sua senha?{" "}
           <span className="font-semibold text-primary-text dark:text-primary-text">
