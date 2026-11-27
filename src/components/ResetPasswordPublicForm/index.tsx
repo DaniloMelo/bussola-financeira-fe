@@ -85,7 +85,10 @@ export default function ResetPasswordPublicForm() {
 
         <AuthButton text="Alterar" disabled={isLoading} />
 
-        <Link href="/" className="self-center text-zinc-500 mt-5">
+        <Link
+          href="/"
+          className="self-center text-zinc-500 mt-5 dark:outline-primary-border"
+        >
           Voltar para{" "}
           <span className="font-semibold text-primary-text dark:text-primary-text">
             login

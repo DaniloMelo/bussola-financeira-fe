@@ -1,4 +1,5 @@
 import SideMenu from "@/components/SideMenu";
+import AdminPageLink from "../AdminPageLink";
 
 export default function AdminSideMenu() {
   const links = [
@@ -39,5 +40,9 @@ export default function AdminSideMenu() {
     },
   ];
 
-  return <SideMenu sideMenuItems={links} />;
+  return (
+    <SideMenu sideMenuItems={links}>
+      <AdminPageLink />
+    </SideMenu>
+  );
 }

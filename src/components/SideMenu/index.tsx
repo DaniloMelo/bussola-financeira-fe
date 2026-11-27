@@ -15,9 +15,10 @@ type SideMenuItems = {
 
 type SideMenuProps = {
   sideMenuItems: SideMenuItems[];
+  children: React.ReactNode;
 };
 
-export default function SideMenu({ sideMenuItems }: SideMenuProps) {
+export default function SideMenu({ sideMenuItems, children }: SideMenuProps) {
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -75,7 +76,8 @@ export default function SideMenu({ sideMenuItems }: SideMenuProps) {
         ))}
 
         {isSideMenuOpen && (
-          <div className="mt-auto mb-10">
+          <div className="flex flex-col gap-4 items-start mt-auto mb-5">
+            {children}
             <LogoutButton />
           </div>
         )}

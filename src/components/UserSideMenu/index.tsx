@@ -1,3 +1,4 @@
+import AdminPageLink from "../admin/AdminPageLink";
 import SideMenu from "../SideMenu";
 
 export default function UserSideMenu() {
@@ -26,5 +27,9 @@ export default function UserSideMenu() {
     },
   ];
 
-  return <SideMenu sideMenuItems={links} />;
+  return (
+    <SideMenu sideMenuItems={links}>
+      <AdminPageLink />
+    </SideMenu>
+  );
 }

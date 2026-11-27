@@ -10,7 +10,7 @@ export default function AuthButton({ text, ...props }: AuthButtonProps) {
       {...props}
       className={`
         ${props.disabled ? "bg-zinc-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-800 cursor-pointer transition"}
-         text-white rounded-sm mt-4 p-1 font-semibold h-12 text-xl lg:h-8 lg:text-base self-stretch
+         text-white rounded-sm mt-4 p-1 font-semibold h-12 text-xl lg:h-8 lg:text-base self-stretch outline-blue-900 dark:outline-white
       `}
     >
       {props.disabled ? (

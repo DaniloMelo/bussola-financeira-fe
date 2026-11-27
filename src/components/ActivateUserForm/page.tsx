@@ -78,22 +78,22 @@ export default function ActivateUserForm() {
 
         <AuthButton text="Ativar" disabled={isLoading} />
 
-        <span
+        <p
           onClick={() => void resend({ email: emailParam })}
-          className="self-center text-zinc-500 mt-5 cursor-pointer"
+          className="self-center text-zinc-500 mt-5 cursor-pointer dark:outline-red-600"
         >
           Não recebeu o código no e-email?{" "}
           <button
             type="button"
-            className="font-semibold cursor-pointer text-primary-text dark:text-primary-text"
+            className="font-semibold cursor-pointer text-primary-text dark:text-primary-text dark:outline-primary-border"
           >
             Reenviar
           </button>
-        </span>
+        </p>
 
         <Link
           href={"/"}
-          className="mt-2 self-center text-secondary-text dark:text-secondary-text"
+          className="mt-2 self-center text-secondary-text dark:text-secondary-text dark:outline-primary-border"
         >
           Voltar para{" "}
           <span className="font-semibold text-primary-text dark:text-primary-text">
