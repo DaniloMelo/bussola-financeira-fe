@@ -1,3 +1,5 @@
+"use client";
+
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { LuSun, LuMoon } from "react-icons/lu";
@@ -20,15 +22,15 @@ export default function ThemeSelector() {
 
   if (!mounted) {
     return (
-      <button
-        className="h-10 w-10 rounded-lg bg-muted/20"
+      <div
+        className="h-10 w-10 rounded-full border-4 border-zinc-950/20 border-t-blue-500 animate-spin"
         aria-label="Carregando tema"
       />
     );
   }
 
   return (
-    <div className="flex w-fit gap-1 rounded-lg bg-zinc-300 p-1">
+    <div className="flex w-fit gap-1 rounded-full bg-zinc-500/30 p-1">
       {themes.map(({ value, label, icon: Icon }) => {
         const isActive = theme === value;
 
@@ -37,12 +39,12 @@ export default function ThemeSelector() {
             key={value}
             onClick={() => setTheme(value)}
             className={`
-              flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium
+              flex items-center gap-2 rounded-full px-4 py-2 text-sm cursor-pointer
               transition-colors
               ${
                 isActive
-                  ? "bg-blue-500 text-white"
-                  : "text-zinc-500 hover:bg-border hover:text-foreground"
+                  ? "bg-blue-500 text-white font-medium"
+                  : "text-white bg-zinc-500/50 hover:bg-zinc-500/80 transition"
               }
             `}
           >

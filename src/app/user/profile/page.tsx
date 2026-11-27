@@ -11,19 +11,20 @@ export default async function Profile() {
   const isAdmin = user.roles.map((role) => role.name).includes(Role.ADMIN);
 
   return (
-    <Container className="pl-0 lg:pl-0 py-0 lg:py-0">
+    <>
       <Header />
+      <Container className="pl-0 lg:pl-0 py-0 lg:py-0">
+        <UserSideMenu />
 
-      <UserSideMenu />
+        <MainContentWrapper>
+          <h1>Página de perfil</h1>
 
-      <MainContentWrapper>
-        <h1>Página de perfil</h1>
+          <p>Nome: {user.name}</p>
+          <p>Email: {user.email}</p>
 
-        <p>Nome: {user.name}</p>
-        <p>Email: {user.email}</p>
-
-        {isAdmin && <Link href="/admin">Painel Administrativo</Link>}
-      </MainContentWrapper>
-    </Container>
+          {isAdmin && <Link href="/admin">Painel Administrativo</Link>}
+        </MainContentWrapper>
+      </Container>
+    </>
   );
 }

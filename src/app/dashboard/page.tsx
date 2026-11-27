@@ -10,9 +10,8 @@ export default async function DashBoard() {
 
   return (
     <>
+      <Header />
       <Container className="pl-0 lg:pl-0 py-0 lg:py-0">
-        <Header />
-
         <UserSideMenu />
 
         <MainContentWrapper>

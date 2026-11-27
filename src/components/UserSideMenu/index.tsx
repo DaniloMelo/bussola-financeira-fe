@@ -18,6 +18,10 @@ export default function UserSideMenu() {
           linkName: "Alterar dados cadastrais",
           linkHref: "/user/profile",
         },
+        {
+          linkName: "Preferências",
+          linkHref: "/user/preferences",
+        },
       ],
     },
   ];
