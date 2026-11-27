@@ -41,11 +41,11 @@ export default function SideMenuItem({
       {links.map((link) => (
         <div
           key={link.linkName}
-          className={`${isSideMenuItemOpen ? "flex flex-col h-8" : "h-0 invisible"} transition-[height] duration-100 ease-in-out border border-red-500`}
+          className={`${isSideMenuItemOpen ? "flex flex-col h-8" : "h-0 invisible"} transition-[height] duration-100 ease-in-out`}
         >
           <Link
             href={link.linkHref}
-            className={`mb-2 pl-8 border border-blue-500`}
+            className={"mb-2 pl-8"}
             onClick={onLinkClick}
           >
             {link.linkName}

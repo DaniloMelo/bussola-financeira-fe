@@ -15,8 +15,8 @@ export default function LogoutButton() {
       {isLoading ? (
         "Aguade..."
       ) : (
-        <div className="flex justify-center items-center gap-x-2">
-          Sair <LuLogOut />
+        <div className="flex justify-center items-center gap-x-2 py-2 px-4 cursor-pointer">
+          <span className="text-lg">Sair</span> <LuLogOut />
         </div>
       )}
     </button>

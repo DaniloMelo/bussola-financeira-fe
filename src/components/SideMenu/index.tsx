@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { RiMenuLine, RiCloseLargeFill } from "react-icons/ri";
 import SideMenuItem from "../SideMenuItem";
+import LogoutButton from "../LogoutButton";
 
 type SideMenuItems = {
   itemName: string;
@@ -72,6 +73,12 @@ export default function SideMenu({ sideMenuItems }: SideMenuProps) {
             onLinkClick={() => setIsSideMenuOpen(false)}
           />
         ))}
+
+        {isSideMenuOpen && (
+          <div className="mt-auto mb-10">
+            <LogoutButton />
+          </div>
+        )}
       </aside>
     </>
   );
