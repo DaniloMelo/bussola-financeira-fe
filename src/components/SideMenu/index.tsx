@@ -45,7 +45,7 @@ export default function SideMenu({ sideMenuItems }: SideMenuProps) {
 
       <aside
         className={`
-          ${isSideMenuOpen ? "w-65 lg:w-70" : "w-14 lg:w-12"}
+          ${isSideMenuOpen ? "w-65 lg:w-70" : "w-14 lg:w-12 shadow-sm"}
           absolute z-50 h-full overflow-hidden flex flex-col whitespace-nowrap
           transition-[width] duration-300 ease-in-out
           bg-secondary-background dark:bg-secondary-background
